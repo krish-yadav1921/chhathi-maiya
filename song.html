@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>🌞 Chhath Puja Song Gallery</title>
+<style>
+/* 🌄 Background & base setup */
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:radial-gradient(circle at center,#ffcf66 0%,#ff9933 35%,#552200 100%);
+  overflow:hidden;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  perspective:1000px;
+}
+.sun{
+  position:absolute;
+  top:5%;
+  left:50%;
+  transform:translateX(-50%);
+  width:180px;
+  height:180px;
+  background:radial-gradient(circle,#fff799 0%,#ffcc33 40%,#ff6600 70%);
+  border-radius:50%;
+  box-shadow:0 0 60px #ffcc33,0 0 120px #ff9900,0 0 180px #ff6600;
+  animation:floatSun 6s ease-in-out infinite alternate;
+  z-index:0;
+}
+@keyframes floatSun{
+  from{transform:translate(-50%,10px);}
+  to{transform:translate(-50%,-20px);}
+}
+
+/* 🌊 reflection blur effect */
+.reflection{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:200px;
+  background:linear-gradient(to top,rgba(255,200,100,0.3),transparent);
+  filter:blur(30px);
+  z-index:0;
+}
+
+/* 🎵 3D song gallery grid */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+  width:90%;
+  max-width:900px;
+  transform-style:preserve-3d;
+  z-index:2;
+}
+
+.song{
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:15px;
+  padding:25px 15px;
+  text-align:center;
+  cursor:pointer;
+  backdrop-filter:blur(10px);
+  transition:transform .4s,box-shadow .4s;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+.song:hover{
+  transform:rotateY(10deg) rotateX(8deg) scale(1.05);
+  box-shadow:0 20px 40px rgba(255,200,100,0.5);
+}
+.song.playing{
+  background:rgba(255,200,100,0.4);
+  box-shadow:0 0 40px #ffcc33;
+}
+
+/* 📀 song title */
+.song h3{
+  margin:10px 0 0;
+  font-size:1.1em;
+}
+.song p{
+  font-size:.9em;
+  opacity:.8;
+  margin:4px 0 0;
+}
+
+/* 🔊 bottom player bar */
+audio{
+  margin-top:30px;
+  width:80%;
+  max-width:400px;
+  border-radius:10px;
+}
+
+h1{
+  margin-top:60px;
+  text-shadow:0 0 20px #fff066,0 0 40px #ff9900;
+  z-index:3;
+}
+</style>
+</head>
+<body>
+  <div class="sun"></div>
+  <div class="reflection"></div>
+
+  <h1>🌞 Chhath Puja  Songs 🎶</h1>
+
+  <div class="gallery">
+    <div class="song" data-src="songs/song2.mp3">
+      <h3>Uga Ho Suruj Dev</h3>
+      <p>Traditional Chhath Geet</p>
+    </div>
+    <div class="song" data-src="songs/song4.mp3">
+       
+      <h3>Kaanch Hi Baans Ke Bahangiya</h3>
+      <p>Kalpana Patowary</p>
+    </div>
+    <div class="song" data-src="songs/song3.mp3">
+      <h3>Hey Chhathi Maiya</h3>
+      <p>Sharda Sinha</p>
+    </div>
+    <div class="song" data-src="songs/song1.mp3">
+      <h3>Pahile Pahil Chhath Kare</h3>
+      <p>Traditional</p>
+    </div>
+    <div class="song" data-src="songs/song8.mp3">
+      <h3>chhathi Maiya Bulaye</h3>
+      <p>Vishal Mishra</p>
+    </div>
+  </div>
+
+  <audio id="player" controls style="display:none;"></audio>
+
+<script>
+const songs=document.querySelectorAll('.song');
+const player=document.getElementById('player');
+let current=null;
+
+songs.forEach(song=>{
+  song.addEventListener('click',()=>{
+    const src=song.getAttribute('data-src');
+    if(current===song && !player.paused){
+      player.pause();
+      song.classList.remove('playing');
+      return;
+    }
+    songs.forEach(s=>s.classList.remove('playing'));
+    song.classList.add('playing');
+    player.src=src;
+    player.style.display='block';
+    player.play();
+    current=song;
+  });
+});
+
+player.addEventListener('ended',()=>{
+  if(current) current.classList.remove('playing');
+});
+</script>
+</body>
+</html>
