@@ -339,7 +339,7 @@
       // center the current card in viewport
       const viewport = document.getElementById('viewport');
       const viewportW = viewport.clientWidth;
-      const offset = (current * totalCardWidth) - ( (viewportW - cardWidth)/2 );
+      const offset = (current * totalCardWidth) - ( (viewportW - cardWidth) );
       track.style.transform = `translateX(${-Math.round(offset)}px)`;
 
       // per-card classes
@@ -451,3 +451,4 @@
   </script>
 </body>
 </html>
+
